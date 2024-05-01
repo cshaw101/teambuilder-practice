@@ -46,11 +46,14 @@ export default function App() {
     // ✨ Put this function inside a click handler for the <button>Edit</button>.
     // It should change the value of `editing` state to be the id of the member
     // whose Edit button was clicked
+    
   }
   const submitNewMember = () => {
     // This takes the values of the form and constructs a new member object,
     // which is then concatenated at the end of the `members` state
-
+    const { fname, lname, bio } = inputValues
+    const newMember = { fname, lname, bio, id: getId() }
+    setMembers([...members, newMember])
   }
   const editExistingMember = () => {
     // ✨ This takes the values of the form and replaces the data of the
@@ -63,7 +66,12 @@ export default function App() {
     // Don't allow the page to reload! Prevent the default behavior
     // and clean up the form after submitting
     evt.preventDefault()
-
+    submitNewMember()
+    setInputValues({
+      fname:'',
+      lname:'',
+      bio:''
+    })
   }
 
   return (
@@ -86,7 +94,7 @@ export default function App() {
       </div>
       <div id="membersForm">
         <h2>{editing ? 'Edit' : 'Add'} a Team Member</h2>
-        <form>
+        <form onSubmit={onSubmit}>
           <div>
             <label htmlFor="fname">First Name </label>
             <input id="fname" onChange={evt => setInputValues({...inputValues, fname:evt.target.value})} type="text" placeholder="Type First Name" />
