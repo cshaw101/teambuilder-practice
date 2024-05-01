@@ -50,7 +50,7 @@ export default function App() {
   const submitNewMember = () => {
     // This takes the values of the form and constructs a new member object,
     // which is then concatenated at the end of the `members` state
-    
+
   }
   const editExistingMember = () => {
     // ✨ This takes the values of the form and replaces the data of the
@@ -65,6 +65,7 @@ export default function App() {
     evt.preventDefault()
 
   }
+
   return (
     <div>{/* ✨ Fix the JSX by wiring the necessary values and event handlers */}
       <div id="membersList">
@@ -88,17 +89,17 @@ export default function App() {
         <form>
           <div>
             <label htmlFor="fname">First Name </label>
-            <input id="fname" type="text" placeholder="Type First Name" />
+            <input id="fname" onChange={evt => setInputValues({...inputValues, fname:evt.target.value})} type="text" placeholder="Type First Name" />
           </div>
 
           <div>
             <label htmlFor="lname">Last Name </label>
-            <input id="lname" type="text" placeholder="Type Last Name" />
+            <input id="lname" onChange={evt => setInputValues({...inputValues, lname: evt.target.value})}  type="text" placeholder="Type Last Name" />
           </div>
 
           <div>
             <label htmlFor="bio">Bio </label>
-            <textarea id="bio" placeholder="Type Bio" />
+            <textarea onChange={evt => setInputValues({...inputValues, bio: evt.target.value})}  id="bio" placeholder="Type Bio" />
           </div>
 
           <div>
