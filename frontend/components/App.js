@@ -46,7 +46,7 @@ export default function App() {
     // ✨ Put this function inside a click handler for the <button>Edit</button>.
     // It should change the value of `editing` state to be the id of the member
     // whose Edit button was clicked
-    
+    setEditing(id)
   }
   const submitNewMember = () => {
     // This takes the values of the form and constructs a new member object,
@@ -86,7 +86,7 @@ export default function App() {
                   <h4>{mem.fname} {mem.lname}</h4>
                   <p>{mem.bio}</p>
                 </div>
-                <button>Edit</button>
+                <button onClick={edit}>Edit</button>
               </div>
             ))
           }
