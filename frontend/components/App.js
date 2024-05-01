@@ -22,6 +22,11 @@ I enjoy bringing creativity and aesthetics to the digital world."
 export default function App() {
   const [members, setMembers] = useState(teamMembers)
   const [editing, setEditing] = useState(null)
+  const [inputValues, setInputValues] = useState({
+    fname: '',
+    lname: '',
+    bio: ''
+  })
   // ✨ Create a third state to track the values of the inputs
 
   useEffect(() => {
@@ -45,6 +50,7 @@ export default function App() {
   const submitNewMember = () => {
     // This takes the values of the form and constructs a new member object,
     // which is then concatenated at the end of the `members` state
+    
   }
   const editExistingMember = () => {
     // ✨ This takes the values of the form and replaces the data of the
@@ -56,6 +62,8 @@ export default function App() {
     // depending on whether the `editing` state is null or has an id in it.
     // Don't allow the page to reload! Prevent the default behavior
     // and clean up the form after submitting
+    evt.preventDefault()
+
   }
   return (
     <div>{/* ✨ Fix the JSX by wiring the necessary values and event handlers */}
