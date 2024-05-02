@@ -76,7 +76,7 @@ The edit button on each member, when clicked, should put the id of the member in
 
 **Here is a suggested sequence.**
 
-1. Complete the `edit` function. Then, put a click handler on the edit button which calls `edit` with the proper id.
+1.x Complete the `edit` function. Then, put a click handler on the edit button which calls `edit` with the proper id.
 
 2. Check in the React Dev Tools that indeed clicking on `edit` member puts the id of that particular member in the `editing` slice.
 
