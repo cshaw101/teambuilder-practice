@@ -19,14 +19,19 @@ I enjoy bringing creativity and aesthetics to the digital world."
   },
 ]
 
+const initialValues = () => ({
+  fname: '',
+  lname: '',
+  bio: ''
+})
+
+
 export default function App() {
+
+
   const [members, setMembers] = useState(teamMembers)
   const [editing, setEditing] = useState(null)
-  const [inputValues, setInputValues] = useState({
-    fname: '',
-    lname: '',
-    bio: ''
-  })
+  const [inputValues, setInputValues] = useState(initialValues())
   // ✨ Create a third state to track the values of the inputs
 
   useEffect(() => {
@@ -35,12 +40,20 @@ export default function App() {
     // with the data belonging to the member with id 2.
     // On the other hand, if the `editing` state changes back to null
     // then we need to reset the form back to empty values
+    if (editing === null) {
+      setInputValues(initialValues())
+    }else {
+      const { fname, lname, bio } = members.find(mem => mem.id == editing)
+      setInputValues({ fname, lname, bio })
+    }
   }, [editing])
 
   const onChange = evt => {
     // ✨ This is the change handler for your text inputs and your textarea.
     // You can check `evt.target.id` to know which input changed
     // and then you can use `evt.target.value` to update the state of the form
+    const { id, value } = evt.target
+    setInputValues(prevValues => ({...prevValues, [id]: value}))
   }
   const edit = id => {
     // ✨ Put this function inside a click handler for the <button>Edit</button>.
@@ -58,6 +71,13 @@ export default function App() {
   const editExistingMember = () => {
     // ✨ This takes the values of the form and replaces the data of the
     // member in the `members` state whose id matches the `editing` state
+    setMembers(prevMembers => prevMembers.map(mem => {
+      if (mem.id == editing) {
+        return {...mem, ...inputValues}
+      }
+      return mem
+    }))
+    setEditing(null)
   }
   const onSubmit = evt => {
     // ✨ This is the submit handler for your form element.
@@ -66,12 +86,12 @@ export default function App() {
     // Don't allow the page to reload! Prevent the default behavior
     // and clean up the form after submitting
     evt.preventDefault()
-    submitNewMember()
-    setInputValues({
-      fname:'',
-      lname:'',
-      bio:''
-    })
+    if (editing) {
+      editExistingMember()
+    }else {
+      submitNewMember()
+    }
+    setInputValues(initialValues())
   }
 
   return (
@@ -86,7 +106,7 @@ export default function App() {
                   <h4>{mem.fname} {mem.lname}</h4>
                   <p>{mem.bio}</p>
                 </div>
-                <button onClick={edit}>Edit</button>
+                <button onClick={() => edit(mem.id)}>Edit</button>
               </div>
             ))
           }
@@ -97,17 +117,17 @@ export default function App() {
         <form onSubmit={onSubmit}>
           <div>
             <label htmlFor="fname">First Name </label>
-            <input id="fname" onChange={evt => setInputValues({...inputValues, fname:evt.target.value})} type="text" placeholder="Type First Name" />
+            <input onChange={onChange} value={inputValues.fname} id="fname" onClick={evt => setInputValues({...inputValues, fname:evt.target.value})} type="text" placeholder="Type First Name" />
           </div>
 
           <div>
             <label htmlFor="lname">Last Name </label>
-            <input id="lname" onChange={evt => setInputValues({...inputValues, lname: evt.target.value})}  type="text" placeholder="Type Last Name" />
+            <input onChange={onChange} value={inputValues.lname} id="lname"  onClick={evt => setInputValues({...inputValues, lname: evt.target.value})}  type="text" placeholder="Type Last Name" />
           </div>
 
           <div>
             <label htmlFor="bio">Bio </label>
-            <textarea onChange={evt => setInputValues({...inputValues, bio: evt.target.value})}  id="bio" placeholder="Type Bio" />
+            <textarea onChange={onChange} value={inputValues.bio} onClick={evt => setInputValues({...inputValues, bio: evt.target.value})}  id="bio" placeholder="Type Bio" />
           </div>
 
           <div>
